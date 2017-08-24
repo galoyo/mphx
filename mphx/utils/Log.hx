@@ -12,7 +12,7 @@ package mphx.utils;
 }
 
 class Log {
-	public static var debugLevel = DebugLevel.Errors | DebugLevel.Warnings | DebugLevel.Info;
+	public static var debugLevel = DebugLevel.Errors | DebugLevel.Warnings | DebugLevel.Info | DebugLevel.Networking;
     public static var usePrintLn = #if sys true #else false #end;
     public static var printLevel = true;
     public static var printLocation = true;

@@ -95,6 +95,7 @@ class Connection implements IConnection
 
 	public function send(event:String, ?data:Dynamic):Bool
 	{
+		Log.message(DebugLevel.Networking,"Send event " + event + " to client.");
 		var object = {
 			t: event,
 			data:data
@@ -108,6 +109,7 @@ class Connection implements IConnection
 	public function recieve(line:String)
 	{
 		var msg = serializer.deserialize(line);
+		Log.message(DebugLevel.Networking,"Receive event " + msg.t + " from client.");
 		events.callEvent(msg.t,msg.data,this);
 	}
 
