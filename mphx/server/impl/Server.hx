@@ -11,6 +11,7 @@ import mphx.server.room.Room;
 import mphx.utils.event.impl.ServerEventManager;
 import sys.net.Host;
 import sys.net.Socket;
+import sys.net.UdpSocket;
 import mphx.utils.Log;
 
 class Server implements IServer
@@ -18,6 +19,7 @@ class Server implements IServer
 	private var readSockets:Array<Socket>;
 	private var clients:Map<Socket, NetSock>;
 	private var listener:Socket;
+	private var udpListener:UdpSocket;
 	private var buffer:Bytes;
 
 	public var host(default, null):String;
@@ -48,7 +50,7 @@ class Server implements IServer
 	 * @param	_serializer
 	 * @param	buffer : set the max read buffer (default = 8Kb) the buffer size is set with buffer * 1024
 	 */
-	public function new(hostname:String, port:Int, connectionTemplate : IConnection = null, _serializer : ISerializer = null, bufferSize : Int = 8)
+	public function new(hostname:String, port:Int, enableUdp:Bool = false, connectionTemplate : IConnection = null, _serializer : ISerializer = null, bufferSize : Int = 8)
 	{
 		if (hostname == null)
 			hostname = Host.localhost();
@@ -63,8 +65,14 @@ class Server implements IServer
 			serializer = _serializer;
 
 		buffer = Bytes.alloc(1024 * bufferSize);
+
 		listener = new Socket();
 		readSockets = [listener];
+		udpListener = null;
+		if (enableUdp) {
+			udpListener = new UdpSocket();
+			readSockets.push(udpListener);
+		}
 		clients = new Map();
 		events = new ServerEventManager();
 		rooms = [];
@@ -85,6 +93,10 @@ class Server implements IServer
 	{
 		listener.bind(new Host(host), port);
 		listener.listen(1);
+		if (udpListener != null) {
+			udpListener.bind(new Host(host), port);
+			udpListener.listen(1);
+		}
 		this.blocking = blocking;
 	}
 
@@ -99,7 +111,12 @@ class Server implements IServer
 
 		for (socket in select.read)
 		{
-			if (socket == listener)
+			if (socket == udpListener)
+			{
+				//Data received through udp protocol
+				socket.readFrom(buffer, 0, buffer.length, null);
+			}
+			else if (socket == listener)
 			{
 				//If the socket that has data to read is the listener socket,
 				//allocate a new netsock/protocol for this client to be processed with.

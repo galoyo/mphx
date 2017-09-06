@@ -8,6 +8,9 @@ import mphx.serialization.ISerializer;
 import mphx.utils.event.impl.ClientEventManager;
 import sys.net.Host;
 import sys.net.Socket;
+import sys.net.UdpSocket;
+import sys.net.Address;
+import sys.net.Host;
 import mphx.utils.Log;
 //The TCP client class that is used on native targets.
 //This should not be created by the user! For ultimate cross compatibility
@@ -21,6 +24,7 @@ class TcpClient implements IClient
 	public var cnx:NetSock;
 	public var events:ClientEventManager;
 	private var client:Socket;
+	private var udpClient:UdpSocket;
 	private var readSockets:Array<Socket>;
 
 	public var onConnectionError:mphx.utils.Error.ClientError->Void;
@@ -34,11 +38,15 @@ class TcpClient implements IClient
 
 	var port:Int;
 	var ip:String;
+	var address:Address;
 
-	public function new(_ip:String, _port:Int, _serializer : ISerializer = null, _blocking : Bool = false)
+	public function new(_ip:String, _port:Int, enableUdp:Bool = false, _serializer : ISerializer = null, _blocking : Bool = false)
 	{
 		port = _port;
 		ip = _ip;
+		address = new Address();
+		address.host = new Host(_ip).ip;
+		address.port = _port;
 		events = new ClientEventManager();
 
 		if (_serializer != null)
@@ -47,6 +55,9 @@ class TcpClient implements IClient
 			serializer = new HaxeSerializer();
 
 		this.blocking = _blocking;
+		if (enableUdp) {
+			udpClient = new UdpSocket();
+		}
 	}
 
 	public function connect()
@@ -74,6 +85,9 @@ class TcpClient implements IClient
 		}
 		// prevent recreation of array on every update
 		readSockets = [client];
+		if (udpClient != null) {
+			readSockets.push(udpClient);
+		}
 		cnx = new NetSock(client);
 
 		Log.message(DebugLevel.Info,"Connected on: "+ip+":"+port);
@@ -164,6 +178,18 @@ class TcpClient implements IClient
 		var serialiseObject =  serializer.serialize(object);
 
 		var result = cnx.writeBytes(Bytes.ofString(serialiseObject + "\r\n"));
+	}
+
+	public function send_udp(event:String, ?data:Dynamic){
+		Log.message(DebugLevel.Networking,"Send event " + event + " to server using UDP protocol.");
+		var object = {
+			t: event,
+			data:data
+		};
+		var serialiseObject =  serializer.serialize(object);
+
+		var toWrite = Bytes.ofString(serialiseObject + "\r\n");
+		var result = udpClient.sendTo(toWrite, 0, toWrite.length, address);
 	}
 
 	private inline function get_connected() : Bool{ return client != null;}
