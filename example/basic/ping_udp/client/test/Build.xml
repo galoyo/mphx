@@ -1,0 +1,294 @@
+<xml>
+<set name="HXCPP_API_LEVEL" value="331" />
+<files id="haxe">
+<compilerflag value="-Iinclude"/>
+  <file name="src/sys/net/UdpSocket.cpp" >
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/Error.h"/>
+   <depend name="include/sys/net/Address.h"/>
+   <depend name="include/sys/net/Socket.h"/>
+   <depend name="include/sys/net/UdpSocket.h"/>
+  </file>
+  <file name="src/sys/net/Socket.cpp" >
+   <depend name="include/Reflect.h"/>
+   <depend name="include/cpp/Lib.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+   <depend name="include/haxe/io/Output.h"/>
+   <depend name="include/sys/net/Host.h"/>
+   <depend name="include/sys/net/Socket.h"/>
+   <depend name="include/sys/net/_Socket/SocketInput.h"/>
+   <depend name="include/sys/net/_Socket/SocketOutput.h"/>
+  </file>
+  <file name="src/sys/net/_Socket/SocketOutput.cpp" >
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/Eof.h"/>
+   <depend name="include/haxe/io/Error.h"/>
+   <depend name="include/haxe/io/Output.h"/>
+   <depend name="include/sys/net/_Socket/SocketOutput.h"/>
+  </file>
+  <file name="src/sys/net/_Socket/SocketInput.cpp" >
+   <depend name="include/haxe/io/Eof.h"/>
+   <depend name="include/haxe/io/Error.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+   <depend name="include/sys/net/_Socket/SocketInput.h"/>
+  </file>
+  <file name="src/sys/net/Host.cpp" >
+   <depend name="include/sys/net/Host.h"/>
+  </file>
+  <file name="src/sys/net/Address.cpp" >
+   <depend name="include/sys/net/Address.h"/>
+  </file>
+  <file name="src/mphx/utils/event/impl/ClientEventManager.cpp" >
+   <depend name="include/haxe/IMap.h"/>
+   <depend name="include/haxe/ds/StringMap.h"/>
+   <depend name="include/mphx/utils/Log.h"/>
+   <depend name="include/mphx/utils/event/impl/ClientEventManager.h"/>
+  </file>
+  <file name="src/mphx/utils/Log.cpp" >
+   <depend name="include/Sys.h"/>
+   <depend name="include/haxe/Log.h"/>
+   <depend name="include/mphx/utils/Log.h"/>
+  </file>
+  <file name="src/mphx/utils/_Log/DebugLevel_Impl_.cpp" >
+   <depend name="include/mphx/utils/_Log/DebugLevel_Impl_.h"/>
+  </file>
+  <file name="src/mphx/utils/ServerError.cpp" >
+   <depend name="include/mphx/utils/ServerError.h"/>
+  </file>
+  <file name="src/mphx/utils/ClientError.cpp" >
+   <depend name="include/mphx/utils/ClientError.h"/>
+  </file>
+  <file name="src/mphx/serialization/impl/HaxeSerializer.cpp" >
+   <depend name="include/haxe/Serializer.h"/>
+   <depend name="include/haxe/Unserializer.h"/>
+   <depend name="include/mphx/serialization/ISerializer.h"/>
+   <depend name="include/mphx/serialization/impl/HaxeSerializer.h"/>
+  </file>
+  <file name="src/mphx/serialization/ISerializer.cpp" >
+   <depend name="include/mphx/serialization/ISerializer.h"/>
+  </file>
+  <file name="src/mphx/connection/NetSock.cpp" >
+   <depend name="include/Std.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+   <depend name="include/haxe/io/Output.h"/>
+   <depend name="include/mphx/connection/NetSock.h"/>
+   <depend name="include/mphx/utils/Log.h"/>
+   <depend name="include/sys/net/Host.h"/>
+   <depend name="include/sys/net/Socket.h"/>
+  </file>
+  <file name="src/mphx/client/impl/TcpClient.cpp" >
+   <depend name="include/Std.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/Eof.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+   <depend name="include/mphx/client/IClient.h"/>
+   <depend name="include/mphx/client/impl/TcpClient.h"/>
+   <depend name="include/mphx/connection/NetSock.h"/>
+   <depend name="include/mphx/serialization/ISerializer.h"/>
+   <depend name="include/mphx/serialization/impl/HaxeSerializer.h"/>
+   <depend name="include/mphx/utils/ClientError.h"/>
+   <depend name="include/mphx/utils/Log.h"/>
+   <depend name="include/mphx/utils/event/impl/ClientEventManager.h"/>
+   <depend name="include/sys/net/Address.h"/>
+   <depend name="include/sys/net/Host.h"/>
+   <depend name="include/sys/net/Socket.h"/>
+   <depend name="include/sys/net/UdpSocket.h"/>
+  </file>
+  <file name="src/mphx/client/IClient.cpp" >
+   <depend name="include/mphx/client/IClient.h"/>
+   <depend name="include/mphx/utils/ClientError.h"/>
+   <depend name="include/mphx/utils/event/impl/ClientEventManager.h"/>
+  </file>
+  <file name="src/haxe/io/Output.cpp" >
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/Error.h"/>
+   <depend name="include/haxe/io/Output.h"/>
+  </file>
+  <file name="src/haxe/io/Input.cpp" >
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/BytesBuffer.h"/>
+   <depend name="include/haxe/io/Eof.h"/>
+   <depend name="include/haxe/io/Input.h"/>
+  </file>
+  <file name="src/haxe/io/Error.cpp" >
+   <depend name="include/haxe/io/Error.h"/>
+  </file>
+  <file name="src/haxe/io/Eof.cpp" >
+   <depend name="include/haxe/io/Eof.h"/>
+  </file>
+  <file name="src/haxe/io/BytesBuffer.cpp" >
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/BytesBuffer.h"/>
+  </file>
+  <file name="src/haxe/io/Bytes.cpp" >
+   <depend name="include/haxe/io/Bytes.h"/>
+   <depend name="include/haxe/io/Error.h"/>
+  </file>
+  <file name="src/haxe/ds/StringMap.cpp" >
+   <depend name="include/haxe/IMap.h"/>
+   <depend name="include/haxe/ds/StringMap.h"/>
+  </file>
+  <file name="src/haxe/ds/ObjectMap.cpp" >
+   <depend name="include/haxe/IMap.h"/>
+   <depend name="include/haxe/ds/ObjectMap.h"/>
+  </file>
+  <file name="src/haxe/ds/IntMap.cpp" >
+   <depend name="include/haxe/IMap.h"/>
+   <depend name="include/haxe/ds/IntMap.h"/>
+  </file>
+  <file name="src/haxe/Unserializer.cpp" >
+   <depend name="include/Date.h"/>
+   <depend name="include/List.h"/>
+   <depend name="include/Reflect.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/StringTools.h"/>
+   <depend name="include/Type.h"/>
+   <depend name="include/haxe/IMap.h"/>
+   <depend name="include/haxe/Unserializer.h"/>
+   <depend name="include/haxe/_Unserializer/DefaultResolver.h"/>
+   <depend name="include/haxe/ds/IntMap.h"/>
+   <depend name="include/haxe/ds/ObjectMap.h"/>
+   <depend name="include/haxe/ds/StringMap.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+  </file>
+  <file name="src/haxe/_Unserializer/DefaultResolver.cpp" >
+   <depend name="include/Type.h"/>
+   <depend name="include/haxe/_Unserializer/DefaultResolver.h"/>
+  </file>
+  <file name="src/haxe/Serializer.cpp" >
+   <depend name="include/Date.h"/>
+   <depend name="include/List.h"/>
+   <depend name="include/Reflect.h"/>
+   <depend name="include/Std.h"/>
+   <depend name="include/StringBuf.h"/>
+   <depend name="include/StringTools.h"/>
+   <depend name="include/Type.h"/>
+   <depend name="include/ValueType.h"/>
+   <depend name="include/_List/ListNode.h"/>
+   <depend name="include/haxe/IMap.h"/>
+   <depend name="include/haxe/Serializer.h"/>
+   <depend name="include/haxe/ds/IntMap.h"/>
+   <depend name="include/haxe/ds/ObjectMap.h"/>
+   <depend name="include/haxe/ds/StringMap.h"/>
+   <depend name="include/haxe/io/Bytes.h"/>
+  </file>
+  <file name="src/haxe/MainLoop.cpp" >
+   <depend name="include/haxe/MainEvent.h"/>
+   <depend name="include/haxe/MainLoop.h"/>
+  </file>
+  <file name="src/haxe/MainEvent.cpp" >
+   <depend name="include/haxe/MainEvent.h"/>
+  </file>
+  <file name="src/haxe/Log.cpp" >
+   <depend name="include/Std.h"/>
+   <depend name="include/haxe/Log.h"/>
+  </file>
+  <file name="src/haxe/EntryPoint.cpp" >
+   <depend name="include/cpp/vm/Lock.h"/>
+   <depend name="include/cpp/vm/Mutex.h"/>
+   <depend name="include/haxe/EntryPoint.h"/>
+   <depend name="include/haxe/MainEvent.h"/>
+   <depend name="include/haxe/MainLoop.h"/>
+  </file>
+  <file name="src/haxe/IMap.cpp" >
+   <depend name="include/haxe/IMap.h"/>
+  </file>
+  <file name="src/cpp/vm/Thread.cpp" >
+   <depend name="include/cpp/vm/Thread.h"/>
+  </file>
+  <file name="src/cpp/vm/Mutex.cpp" >
+   <depend name="include/cpp/vm/Mutex.h"/>
+  </file>
+  <file name="src/cpp/vm/Lock.cpp" >
+   <depend name="include/cpp/vm/Lock.h"/>
+  </file>
+  <file name="src/cpp/Lib.cpp" >
+   <depend name="include/cpp/Lib.h"/>
+  </file>
+  <file name="src/Type.cpp" >
+   <depend name="include/Type.h"/>
+   <depend name="include/ValueType.h"/>
+  </file>
+  <file name="src/ValueType.cpp" >
+   <depend name="include/ValueType.h"/>
+  </file>
+  <file name="src/Sys.cpp" >
+   <depend name="include/Sys.h"/>
+  </file>
+  <file name="src/StringTools.cpp" >
+   <depend name="include/StringTools.h"/>
+  </file>
+  <file name="src/StringBuf.cpp" >
+   <depend name="include/StringBuf.h"/>
+  </file>
+  <file name="src/Std.cpp" >
+   <depend name="include/Std.h"/>
+  </file>
+  <file name="src/Reflect.cpp" >
+   <depend name="include/Reflect.h"/>
+  </file>
+  <file name="src/Main.cpp" >
+   <depend name="include/Main.h"/>
+   <depend name="include/Sys.h"/>
+   <depend name="include/haxe/Log.h"/>
+   <depend name="include/mphx/client/IClient.h"/>
+   <depend name="include/mphx/client/impl/TcpClient.h"/>
+   <depend name="include/mphx/serialization/ISerializer.h"/>
+   <depend name="include/mphx/utils/event/impl/ClientEventManager.h"/>
+  </file>
+  <file name="src/_List/ListNode.cpp" >
+   <depend name="include/_List/ListNode.h"/>
+  </file>
+  <file name="src/List.cpp" >
+   <depend name="include/List.h"/>
+   <depend name="include/_List/ListNode.h"/>
+  </file>
+  <file name="src/Date.cpp" >
+   <depend name="include/Date.h"/>
+   <depend name="include/Std.h"/>
+  </file>
+  <file name="src/__boot__.cpp" >
+   <depend name="include/mphx/utils/ServerError.h"/>
+   <depend name="include/mphx/utils/ClientError.h"/>
+   <depend name="include/haxe/io/Error.h"/>
+   <depend name="include/ValueType.h"/>
+   <depend name="include/sys/net/Host.h"/>
+   <depend name="include/mphx/utils/Log.h"/>
+   <depend name="include/mphx/utils/_Log/DebugLevel_Impl_.h"/>
+   <depend name="include/haxe/Unserializer.h"/>
+   <depend name="include/haxe/Serializer.h"/>
+   <depend name="include/haxe/MainLoop.h"/>
+   <depend name="include/haxe/Log.h"/>
+   <depend name="include/haxe/EntryPoint.h"/>
+  </file>
+  <file name="src/__files__.cpp" if='HXCPP_DEBUGGER'>
+  </file>
+   <file name="${HXCPP}/src/hx/NoFiles.cpp" unless="HXCPP_DEBUGGER" />
+  <file name="src/__resources__.cpp" >
+  </file>
+</files>
+<files id="__lib__">
+<compilerflag value="-Iinclude"/>
+  <file name="src/__lib__.cpp" >
+   <depend name="include/Main.h"/>
+   <depend name="include/haxe/EntryPoint.h"/>
+  </file>
+</files>
+<files id="__main__">
+<compilerflag value="-Iinclude"/>
+  <file name="src/__main__.cpp" >
+   <depend name="include/Main.h"/>
+   <depend name="include/haxe/EntryPoint.h"/>
+  </file>
+</files>
+<files id="__resources__">
+</files>
+<files id="__externs__">
+</files>
+<set name="HAXE_OUTPUT" value="Main" />
+<include name="${HXCPP}/build-tool/BuildCommon.xml"/>
+<include name="${HXCPP}/src/hx/libs/std/Build.xml"/>
+<include name="${HXCPP}/src/hx/libs/std/Build.xml"/>
+<include name="${HXCPP}/src/hx/libs/std/Build.xml"/>
+</xml>

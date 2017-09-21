@@ -12,6 +12,7 @@ import mphx.utils.event.impl.ServerEventManager;
 import sys.net.Host;
 import sys.net.Socket;
 import sys.net.UdpSocket;
+import sys.net.Address;
 import mphx.utils.Log;
 
 class Server implements IServer
@@ -21,6 +22,7 @@ class Server implements IServer
 	private var listener:Socket;
 	private var udpListener:UdpSocket;
 	private var buffer:Bytes;
+	private var address:Address;
 
 	public var host(default, null):String;
 	public var port(default, null):Int;
@@ -65,6 +67,7 @@ class Server implements IServer
 			serializer = _serializer;
 
 		buffer = Bytes.alloc(1024 * bufferSize);
+		address = new Address();
 
 		listener = new Socket();
 		readSockets = [listener];
@@ -113,8 +116,13 @@ class Server implements IServer
 		{
 			if (socket == udpListener)
 			{
+				Log.message(DebugLevel.Info,"Data received through UDP");
+				var totalReceived = 0;
 				//Data received through udp protocol
-				socket.readFrom(buffer, 0, buffer.length, null);
+				Log.message(DebugLevel.Info,""+buffer.length);
+				var byteReceived = udpListener.readFrom(buffer, 0, buffer.length, address);
+				Log.message(DebugLevel.Info,""+byteReceived);
+
 			}
 			else if (socket == listener)
 			{
