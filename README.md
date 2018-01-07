@@ -48,7 +48,7 @@ mphx isn't the only library of it's kind in the haxe ecosystem. I'm pretty slow 
 
 
  - mphx is currently **not compatible with haxe version 3.3.0** as a core part of networking code is broken in **haxe 3.3.0**. Versions before/after should be corrected, however, due to the nature of versioning, **haxe 3.3.0 will always be broken**. 
- - Most lag was created from the example file called movement. Those most lag issues are now fixed. The example file was tested with 4 open clients. Note that a fair amount of lag still exists with tcp. Udp is therefore the default. You can change back to tcp at mphx\client\impl\TcpClient.hx. Compared to other multiplayer libraries, this library is still slow. It is ideal for turn based or small or maybe medium multiplayer games.
+ - Most lag was created from the example file called movement. Those most lag issues are now fixed. The example file was tested with 4 open clients. Note that a fair amount of lag still exists with tcp. Udp is therefore the default. You can change back to tcp at mphx\client\impl\TcpClient.hx.
  - be aware of code flow. If `client.connect` is called before error handlers (`client.onConnectionError = function()`) are setup, the error functions won't throw.
 
 --------------
