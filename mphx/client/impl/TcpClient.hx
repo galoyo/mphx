@@ -40,7 +40,7 @@ class TcpClient implements IClient
 	var ip:String;
 	var address:Address;
 
-	public function new(_ip:String, _port:Int, enableUdp:Bool = false, _serializer : ISerializer = null, _blocking : Bool = false)
+	public function new(_ip:String, _port:Int, enableUdp:Bool = true, _serializer : ISerializer = null, _blocking : Bool = false)
 	{
 		port = _port;
 		ip = _ip;
@@ -114,7 +114,7 @@ class TcpClient implements IClient
 	public function recieve(line:String)
 	{
 		var msg = serializer.deserialize(line);
-		Log.message(DebugLevel.Networking,"Receive event " + msg.t + " from server.");
+		//Log.message(DebugLevel.Networking,"Receive event " + msg.t + " from server.");
 		events.callEvent(msg.t,msg.data);
 	}
 
@@ -170,7 +170,7 @@ class TcpClient implements IClient
 			Log.message(DebugLevel.Warnings | DebugLevel.Networking,"Cannot sent event "+event+" as client is not connected to a server.");
 			return;
 		}
-		Log.message(DebugLevel.Networking,"Send event " + event + " to server.");
+		//Log.message(DebugLevel.Networking,"Send event " + event + " to server.");
 		var object = {
 			t: event,
 			data:data
