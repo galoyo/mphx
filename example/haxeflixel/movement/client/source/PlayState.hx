@@ -7,7 +7,7 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.math.FlxMath;
 import flixel.group.FlxGroup;
-import org.msgpack.MsgPack;
+import openfl.Lib;
 
 import Player;
 
@@ -17,13 +17,16 @@ import Player;
  */
 class PlayState extends FlxState
 {
-	var clientSocket:mphx.client.Client;
-	var ownPlayer:FlxSprite;
+	private var clientSocket:mphx.client.Client;
+	private var ownPlayer:FlxSprite;
 	public var allPlayers:FlxGroup;
-
-	var player:Player;
-
-	var players = new Map<String,Player>();
+	private var _finalUpdate:Bool = false;
+	private var player:Player;
+	private var players = new Map<String,Player>();
+	
+	private var i:Int = 0;
+	private var ii:Int = 0;
+	
 	override public function create():Void
 	{
 		super.create();
@@ -34,51 +37,54 @@ class PlayState extends FlxState
 
 		allPlayers = new FlxGroup();
 		add(allPlayers);
-
-		var error = false;
-
-
-
-		try{
-			clientSocket = new mphx.client.Client(GameData.ip,GameData.port);
-
-			clientSocket.onConnectionError = function (s){
-				error = true;
-			}
-
-			clientSocket.connect();
-		}catch(e:Dynamic){
-			trace(e);
-			error = true;
-		}
-
-		if (error){
-			FlxG.switchState(new MenuState());
-			return;
-		}
-
-
-		var playerData:PlayerData = {
+		
+		var playerData:PlayerData = 
+		{
 			x: Math.floor(FlxG.width*Math.random()),
 			y: Math.floor(FlxG.height*Math.random()),
 			id: "player"+Math.random()*10000
 		};
 
 		player = new Player(playerData, true);
+		player.visible = false;
+			
 		allPlayers.add(player);
-		players.set(playerData.id,player);
+		players.set(playerData.id, player);
+			
+		try{
+			clientSocket = new mphx.client.Client(GameData.ip,GameData.port);
 
-
-		clientSocket.send("Join",playerData);
+			clientSocket.onConnectionError = function (s)
+			{
+				FlxG.switchState(new MenuState());
+				trace(s);
+				return;
+			}				
+		
+			clientSocket.connect();			
+			clientSocket.send("Join", playerData);
+			
+		}	
+		
+		catch (e:Dynamic)
+		{
+			trace(e);			
+		}		
 
 		clientSocket.events.on("New Player", function (data) {
 
-			if (players.exists(data.id)) return;
+			if (players.exists(data.id)) 
+			{
+				player.visible = true;
+				return;
+			}
 
 			var player = new Player(data);
 			allPlayers.add(player);
 
-			players.set(data.id,player);
+			players.set(data.id, player);
+			
+			clientSocket.send("Update",player.data);
 
 		});
 
@@ -98,45 +104,107 @@ class PlayState extends FlxState
 			player.targetx = player.data.x;
 			player.targety = player.data.y;
 		});
+		
+			clientSocket.events.on("Update",function (data){
+			if (data.id == player.data.id) return;
+
+			if (players.exists(data.id) == false){
+				var player = new Player(data);
+				allPlayers.add(player);
+
+				players.set(data.id,player);
+			}
+
+			var player = players.get(data.id);
+			player.data = data;
+
+			player.targetx = player.data.x;
+			player.targety = player.data.y;
+			
+		});
+		
+		clientSocket.events.on("Disconnect",function (data){
+			//if (data.id == player.data.id) return;
+
+			var player = players.get(data.id);
+			allPlayers.remove(player);
+
+		});	
 	}
 
 
 	/**
 	 * Function that is called once every frame.
 	 */
-	var i = 0;
-	var needsUpdating = false;
 	override public function update(elapsed:Float):Void
 	{
-		super.update(elapsed);
-		i++;
-
-		clientSocket.update();
-
 		if (FlxG.keys.pressed.UP)
 		{
-			player.y -= 5;
-			needsUpdating = true;
+			player.y -= 6; i = 0; 
+			player.needsUpdating = true;
 		}
 		if (FlxG.keys.pressed.DOWN)
 		{
-			player.y += 5;
-			needsUpdating = true;
+			player.y += 6; i = 0; 
+			player.needsUpdating = true;
 		}
 		if (FlxG.keys.pressed.LEFT)
 		{
-			player.x -= 5;
-			needsUpdating = true;
+			player.x -= 6; i = 0; 
+			player.needsUpdating = true;
 		}
 		if (FlxG.keys.pressed.RIGHT)
 		{
-			player.x += 5;
-			needsUpdating = true;
+			player.x += 6; i = 0; 
+			player.needsUpdating = true;
 		}
 
-		if (i%3 == 0 && needsUpdating){ //Once every three frames
+		if (player.needsUpdating){ //Once every second  frames
+			
 			clientSocket.send("Player Move",player.data);
-
+			i = 0; 
+			
+			if (_finalUpdate == true) {ii = 10; _finalUpdate = false;}
+			else _finalUpdate = true;
+			
+			player.needsUpdating = false;
 		}
+		
+		
+		if (i > 0 && ii == 10 && player.needsUpdating == false)
+		{
+			ii = 0;
+			clientSocket.send("Player Move", player.data);
+		}
+		
+		i++;
+		
+		clientSocket.onConnectionClose = function (error:mphx.utils.Error.ClientError)
+		{
+			FlxG.switchState(new MenuState());
+		}
+		
+		setExitHandler(function() {
+    clientSocket.send("Disconnect", player.data);
+});
+		
+		clientSocket.update();
+		super.update(elapsed);
+	}
+	
+	
+	
+
+	public static function setExitHandler(func:Void->Void):Void {
+		#if openfl_legacy
+		openfl.Lib.current.stage.onQuit = function() {
+			func();
+			openfl.Lib.close();
+		};
+		#else
+		openfl.Lib.current.stage.application.onExit.add(function(code) {
+			func();
+		});
+		#end
 	}
 }

@@ -17,14 +17,20 @@ class MenuState extends FlxState
 		add(title);
 
 		var instructions = new flixel.text.FlxText(0,100,-1,"Type the server IP below.",16);
-		instructions.x = FlxG.width/2 - instructions.width/2;
+		instructions.x = FlxG.width / 2 - instructions.width / 2;
+		
 		add(instructions);
 
 		var ipInput = new FlxInputText(0,130,200,"",16);
 		ipInput.x = FlxG.width/2 - ipInput.width/2;
-
-		add(ipInput);
-
+		ipInput.text = "127.0.0.1";
+		add(ipInput);		
+		
+		// connect when program loads.
+		//GameData.ip = "127.0.0.1";
+		//trace("Connection to IP:");
+		//FlxG.switchState(new PlayState());
+				
 		ipInput.callback = function (text,action)
 		{
 			if (action == "enter"){

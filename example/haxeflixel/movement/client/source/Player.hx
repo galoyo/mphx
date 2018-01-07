@@ -1,39 +1,45 @@
 package ;
 
 typedef PlayerData = {
-	x: Int,
-	y: Int,
+	x: Float,
+	y: Float,
 	id: String
 }
 
 class Player extends flixel.FlxSprite {
 	public var data:PlayerData = null;
-
-	public var targetx = 0;
-	public var targety = 0;
+	public var needsUpdating = false;
+	public var targetx:Float = 0;
+	public var targety:Float = 0;
 	var localPlayer = false;
-
+	
 	public function new (_data:PlayerData,isLocalPlayer = false){
 		super(_data.x,_data.y);
 		makeGraphic(60,60);
 
 		localPlayer = isLocalPlayer;
 
-		targetx = Math.round(x);
-		targety = Math.round(y);
+		targetx = x;
+		targety = y;
 
 		data = _data;
 	}
-	override public function update (elapsed:Float){
-		super.update(elapsed);
+	override public function update (elapsed:Float){		
 
 		if (!localPlayer){
-			x += (targetx-x)/3;
-			y += (targety-y)/3;
+			x = targetx;
+			y = targety;
 		}
 
-		data.x = Math.floor(x);
-		data.y = Math.floor(y);
+		if (localPlayer)
+		{
+			data.x = x;
+			data.y = y;		
+			
+			Sys.sleep(0.01);
+		}
+
+		 super.update(elapsed);
 	}
 
 }
