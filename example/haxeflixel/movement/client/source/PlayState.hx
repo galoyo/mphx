@@ -181,6 +181,7 @@ class PlayState extends FlxState
 		
 		clientSocket.onConnectionClose = function (error:mphx.utils.Error.ClientError)
 		{
+			clientSocket.close();
 			FlxG.switchState(new MenuState());
 		}
 		
