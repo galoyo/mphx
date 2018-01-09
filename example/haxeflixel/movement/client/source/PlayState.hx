@@ -25,7 +25,6 @@ class PlayState extends FlxState
 	private var players = new Map<String,Player>();
 	
 	private var i:Int = 0;
-	private var ii:Int = 0;
 	
 	override public function create():Void
 	{
@@ -56,9 +55,8 @@ class PlayState extends FlxState
 
 			clientSocket.onConnectionError = function (s)
 			{
+				clientSocket.close();	
 				FlxG.switchState(new MenuState());
-				trace(s);
-				return;
 			}				
 		
 			clientSocket.connect();			
@@ -159,6 +157,8 @@ class PlayState extends FlxState
 			player.needsUpdating = true;
 		}
 
+		var ii = 0;
+		
 		if (player.needsUpdating){ //Once every second  frames
 			
 			clientSocket.send("Player Move",player.data);
